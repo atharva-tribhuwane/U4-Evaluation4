@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #navbar {
+            width: 100%;
+            display: flex;
+            justify-content: space-evenly;
+            margin: 2%;
+        }
+        #navbar>a{
+            background-color: white;
+            color: teal;
+            text-decoration: none;
+            font-size: 28px;
+        }
+        #contact_info{
+            margin-top:4% ;
+            /* border: 1px solid red; */
+            
+        }
+        #contact_info>form{
+            width: 35%;
+            display: flex;
+            flex-direction: column;
+            margin: auto;
+            /* border: 1px solid purple; */
+            padding: 2%;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+        }
+        #contact_info>form>input,select{
+            margin: 1%;
+            /* width: 100%; */
+            padding: 1%;
+        }
+        #btn{
+            width: 30%;
+            border: none;
+            border-radius: 6px;
+           
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div id="navbar">
+            <a href="./index.html">Home</a>
+            <a href="./contact.html">Contacts</a>
+            <a href="./favorites.html">Favourites</a>
+        </div>
+        <div id="contact_info">
+            <form id="formm">
+
+                <label for="name">Name: </label>
+                <input type="text" id="name" placeholder="Enter Name" required>
+
+                <label for="phone">Mobile Number: </label>
+                <input type="tel" id="mobile-no" placeholder="Enter Number" required>
+
+                <label for="type">Type: </label>
+                <select name="type" id="type" required>
+                    <option disabled selected></option>
+                    <option value="friends">Friends</option>
+                    <option value="family">Family</option>
+                    <option value="others">Others</option>
+                </select>
+
+                <input type="submit" id="btn" />
+            </form>
+        </div>
+    </div>
+</body>
+
+<script>
+    let contactList = localStorage.getItem("contactList");
+    if(contactList == null){
+        localStorage.setItem("contactList",JSON.stringify([]));
+    }
+    document.querySelector("#formm").addEventListener("submit",addToContact);
+
+    function addToContact(){
+
+        event.preventDefault();
+
+        let name = document.getElementById("name").value;
+        let contactno = document.getElementById("mobile-no").value;
+        let type = document.getElementById("type").value;
+        contactList = JSON.parse(localStorage.getItem("contactList"));
+
+        let contact = {
+            Name:name,
+            Mobile_Number:contactno,
+            Type:type
+        }
+
+        contactList.push(contact);
+        localStorage.setItem("contactList",JSON.stringify(contactList));
+        alert("Contact Saved Successfully!!!");
+        document.getElementById("formm").reset();
+        
+    }
+
+</script>
+ 
+</html>

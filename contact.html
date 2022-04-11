@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacts</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #navbar {
+            width: 100%;
+            display: flex;
+            justify-content: space-evenly;
+            margin: 2%;
+        }
+        #navbar>a{
+            background-color: white;
+            color: teal;
+            text-decoration: none;
+            font-size: 28px;
+        }
+        #container>table{
+            width: 70%;
+            margin:auto;
+        }
+        #contact_table>tbody>tr>td{
+            text-align: center;
+        }
+        .addtofav{
+            color: red;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        #contact_table>thead>tr>th{
+            background-color: teal;
+            padding: 2%;
+        }
+        #contact_table>tbody>tr>td{
+            padding: 2%;
+        }
+        #contact_table>th,td{
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="navbar">
+            <a href="./index.html">Home</a>
+            <a href="./contact.html">Contacts</a>
+            <a href="./favorites.html">Favorites</a>
+        </div>
+        <table id="contact_table">
+            <thead>
+                <tr>
+                    <th>Contact Name</th>
+                    <th>Mobile Number</th>
+                    <th>Type</th>
+                    <th>Favourites</th>
+                </tr>
+            </thead>
+            <tbody id="body">
+
+            </tbody>
+        </table>
+    </div >
+</body>
+<script>
+    let contactList = JSON.parse(localStorage.getItem("contactList"));
+
+    let favourites = localStorage.getItem("favourites");
+    if(favourites == null){
+        localStorage.setItem("favourites",JSON.stringify([]));
+    }
+
+    if(contactList == null){
+        alert("No Contact Have Been Saved");
+    }
+    else{
+        let tbody = document.getElementById("body");
+
+        contactList.forEach(function(data,i){
+            // event.preventDefault();
+
+            let tr = document.createElement("tr");
+            let name = document.createElement("td");
+            name.innerText = data.Name;
+            let mobile = document.createElement("td");
+            mobile.innerText = data.Mobile_Number;
+            let type = document.createElement("td");
+            type.innerText = data.Type;
+            let addToFav = document.createElement("td");
+            addToFav.innerHTML = `<div onclick="addToFavourites('${i}')">Add To Favorites</div>`;
+            addToFav.setAttribute("class","addtofav");
+
+            tr.append(name,mobile,type,addToFav);
+            tbody.append(tr);
+
+            // document.querySelector(".addtofav").addEventListener("click",addToFavourites);
+
+        });
+
+        function addToFavourites(index){
+            favourites = JSON.parse(localStorage.getItem("favourites"));
+            // console.log(contactList[index].Name);
+            let data = {
+                Name:contactList[index].Name,
+                Mobile_Number:contactList[index].Mobile_Number,
+                Type:contactList[index].Type
+            }
+            favourites.push(data);
+            localStorage.setItem("favourites",JSON.stringify(favourites));
+            alert("Added To Favourites!!!");
+        }
+    }
+</script>
+</html>
